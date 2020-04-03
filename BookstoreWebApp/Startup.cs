@@ -14,6 +14,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using BookstoreWebApp.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Http;
 
 namespace BookstoreWebApp
 {
@@ -41,12 +42,21 @@ namespace BookstoreWebApp
             })
                 .AddEntityFrameworkStores<BookstoreDbContext>();
 
+            services.AddScoped<IBookRepository, BookRepository>();
+            services.AddScoped<IOrderRepository, OrderRepository>();
+
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            services.AddScoped(sp => ShoppingCart.GetCart(sp));
+
             services.AddControllersWithViews();
             services.AddRazorPages();
+
+            services.AddMemoryCache();
+            services.AddSession();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IServiceProvider serviceProvider)
         {
             if (env.IsDevelopment())
             {
@@ -67,6 +77,8 @@ namespace BookstoreWebApp
             app.UseAuthentication();
             app.UseAuthorization();
 
+            app.UseSession();
+
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
@@ -74,6 +86,8 @@ namespace BookstoreWebApp
                     pattern: "{controller=Home}/{action=Index}/{id?}");
                 endpoints.MapRazorPages();
             });
+
+            CreateRoles(serviceProvider).Wait();
         }
 
         private async Task CreateRoles(IServiceProvider serviceProvider)
@@ -86,7 +100,7 @@ namespace BookstoreWebApp
             foreach (var roleName in roleNames)
             {
                 var roleExist = await RoleManager.RoleExistsAsync(roleName);
-                if(!roleExist)
+                if (!roleExist)
                 {
                     identityResult = await RoleManager.CreateAsync(new IdentityRole(roleName));
                 }
@@ -101,10 +115,10 @@ namespace BookstoreWebApp
             string UserPassword = Configuration.GetSection("UserSettings")["UserPassword"];
             var _admin = await UserManager.FindByNameAsync(Configuration.GetSection("UserSettings")["UserEmail"]);
 
-            if(_admin == null)
+            if (_admin == null)
             {
                 var createAdmin = await UserManager.CreateAsync(admin, UserPassword);
-                if(createAdmin.Succeeded)
+                if (createAdmin.Succeeded)
                 {
                     await UserManager.AddToRoleAsync(admin, "Admin");
                 }
