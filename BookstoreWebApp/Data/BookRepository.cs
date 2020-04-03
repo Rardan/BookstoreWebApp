@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace BookstoreWebApp.Data
 {
-    public class BookRepository
+    public class BookRepository : IBookRepository
     {
         private readonly BookstoreDbContext _bookstoreDbContext;
 
