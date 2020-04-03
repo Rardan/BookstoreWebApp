@@ -29,7 +29,7 @@ namespace BookstoreWebApp
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<BookstoreDBContext>(options =>
+            services.AddDbContext<BookstoreDbContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
             //services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
@@ -39,7 +39,7 @@ namespace BookstoreWebApp
             {
                 options.User.RequireUniqueEmail = true;
             })
-                .AddEntityFrameworkStores<BookstoreDBContext>();
+                .AddEntityFrameworkStores<BookstoreDbContext>();
 
             services.AddControllersWithViews();
             services.AddRazorPages();
@@ -74,6 +74,41 @@ namespace BookstoreWebApp
                     pattern: "{controller=Home}/{action=Index}/{id?}");
                 endpoints.MapRazorPages();
             });
+        }
+
+        private async Task CreateRoles(IServiceProvider serviceProvider)
+        {
+            var RoleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+            var UserManager = serviceProvider.GetRequiredService<UserManager<StoreUser>>();
+            string[] roleNames = { "Admin", "Employee", "User" };
+            IdentityResult identityResult;
+
+            foreach (var roleName in roleNames)
+            {
+                var roleExist = await RoleManager.RoleExistsAsync(roleName);
+                if(!roleExist)
+                {
+                    identityResult = await RoleManager.CreateAsync(new IdentityRole(roleName));
+                }
+            }
+
+            var admin = new StoreUser
+            {
+                UserName = Configuration.GetSection("UserSettings")["UserEmail"],
+                Email = Configuration.GetSection("UserSettings")["UserEmail"]
+            };
+
+            string UserPassword = Configuration.GetSection("UserSettings")["UserPassword"];
+            var _admin = await UserManager.FindByNameAsync(Configuration.GetSection("UserSettings")["UserEmail"]);
+
+            if(_admin == null)
+            {
+                var createAdmin = await UserManager.CreateAsync(admin, UserPassword);
+                if(createAdmin.Succeeded)
+                {
+                    await UserManager.AddToRoleAsync(admin, "Admin");
+                }
+            }
         }
     }
 }
