@@ -22,5 +22,6 @@ namespace BookstoreWebApp.Models
         public Genre Genre { get; set; }
         public Publisher Publisher { get; set; }
         public Storage Storage { get; set; }
+        public ICollection<BookAuthor> BookAuthors { get; set; }
     }
 }
