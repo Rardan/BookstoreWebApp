@@ -3,7 +3,11 @@ using BookstoreWebApp.Models;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace BookstoreWebApp.Controllers
@@ -18,9 +22,24 @@ namespace BookstoreWebApp.Controllers
             _appEnvironment = appEnvironment;
         }
 
+      
+
         public IActionResult Index()
         {
             return View();
+        }
+
+
+        public  IActionResult BookDetails(int? id)
+        {
+            
+            int v2 = id ?? default(int);
+            var books = _context.Books.ToList();
+            var authors = _context.Authors.ToList();
+            var book = books.ElementAt(v2);
+            var author = authors.ElementAt(book.AuthorId);
+            ViewData["Author"] = author;
+            return View(book);
         }
 
         /// <summary>
@@ -29,6 +48,10 @@ namespace BookstoreWebApp.Controllers
         /// <returns>Widok dodawania produktów</returns>
         public IActionResult Create()
         {
+            Book book;
+            using (BookstoreDbContext cont = new BookstoreDbContext())
+            { book = _context.Books.First(); }
+            
             return View();
         }
 
@@ -48,7 +71,7 @@ namespace BookstoreWebApp.Controllers
                 }
                 else
                 {
-                    string path = "/Files/" + bookPhoto.FileName;
+                    string path = "/Files/" + newBook.Title +"/"+bookPhoto.FileName;
                     /*var path = Path.GetFileNameWithoutExtension(Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images", PhotoName.FileName));
                     var stream = new FileStream(path, FileMode.Create);
                     await PhotoName.CopyToAsync(stream);*/

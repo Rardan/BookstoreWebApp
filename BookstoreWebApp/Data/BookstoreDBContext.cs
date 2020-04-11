@@ -1,6 +1,7 @@
 ﻿using BookstoreWebApp.Models;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,6 +15,10 @@ namespace BookstoreWebApp.Data
             : base(options)
         {
         }
+        public BookstoreDbContext()
+        {
+
+        }
 
         public DbSet<Book> Books { get; set; }
         public DbSet<Order> Orders { get; set; }
@@ -23,5 +28,11 @@ namespace BookstoreWebApp.Data
         public DbSet<Publisher> Publishers { get; set; }
         public DbSet<Storage> Storages { get; set; }
         public DbSet<ShoppingCartItem> ShoppingCartItems { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+           
+            base.OnModelCreating(modelBuilder);
+        }
     }
 }

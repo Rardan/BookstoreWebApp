@@ -1,5 +1,7 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -12,7 +14,9 @@ namespace BookstoreWebApp.Models
         public decimal Price { get; set; }
         public string Description { get; set; }
         public string ISBN { get; set; }
-        public DateTime Dating { get; set; }
+
+        
+        public string Dating { get; set; }
         public string Photo { get; set; }
         public int AuthorId { get; set; }
         public int GenreId { get; set; }
