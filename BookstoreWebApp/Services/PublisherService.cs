@@ -44,5 +44,9 @@ namespace BookstoreWebApp.Services
         {
             return _publisherRepository.Exists(id);
         }
+        public async Task<List<Publisher>> GetFiltered(string? searchString)
+        {
+            return await _publisherRepository.GetFiltered(searchString);
+        }
     }
 }

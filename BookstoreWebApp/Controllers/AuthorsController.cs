@@ -23,7 +23,6 @@ namespace BookstoreWebApp.Controllers
         // GET: Authors
         public async Task<IActionResult> Index(string currentFilter, string? searchString, int? pageNumber)
         {
-            ViewData["CurrentFilter"] = searchString;
             if (searchString != null)
             {
                 pageNumber = 1;
