@@ -17,6 +17,7 @@ namespace BookstoreWebApp.Models
         public int AuthorId { get; set; }
         public int GenreId { get; set; }
         public int PublisherId { get; set; }
+        public ICollection<Review> Reviews { get; set; }
 
         public Author Author { get; set; }
         public Genre Genre { get; set; }
