@@ -1,37 +1,37 @@
 ﻿using System;
 using System.Collections.Generic;
+using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using System.Threading.Tasks;
 using BookstoreWebApp.Data;
 using BookstoreWebApp.Models;
 
-namespace BookstoreWebApp.Repositories
+namespace BookstoreWebApp.Data
 {
-    public class AuthorRepository : IRepository<Author>
+    public class AuthorRepository : IAuthorRepository
     {
-        private readonly BookstoreDBContext _context;
+        private readonly BookstoreDbContext _context;
 
-        public AuthorRepository(BookstoreDBContext context)
+        public AuthorRepository(BookstoreDbContext context)
         {
             _context = context;
         }
         public async Task<List<Author>> GetAll()
         {
             return await _context.Authors
-                .Include(a => a.Book)
+                .Include(a => a.BookAuthors)
                 .ToListAsync();
         }
 
-        public async Task<Author> Get(int id)
+        public Author Get(int id)
         {
-            return await _context.Authors
-                .Include(a => a.Book)
+            return _context.Authors
+                .Include(a => a.BookAuthors)
                 .FirstOrDefault(a => a.Id == id);
         }
 
         public async Task<Author> Add(Author entity)
         {
-            _context.BookAuthors.Attach(entity.Book);
             _context.Authors.Add(entity);
             await _context.SaveChangesAsync();
             return entity;
@@ -54,6 +54,12 @@ namespace BookstoreWebApp.Repositories
                 throw new InvalidOperationException("Author does not exist");
             _context.Authors.Remove(author);
             await _context.SaveChangesAsync();
+            return author;
+        }
+
+        public bool Exists(int id)
+        {
+            return _context.Authors.Any(e => e.Id == id);
         }
     }
 }

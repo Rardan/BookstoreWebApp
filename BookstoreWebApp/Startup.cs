@@ -13,6 +13,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using BookstoreWebApp.Models;
+using BookstoreWebApp.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Http;
 
@@ -30,6 +31,12 @@ namespace BookstoreWebApp
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddScoped<IAuthorRepository, AuthorRepository>();
+            services.AddScoped<IPublisherRepository, PublisherRepository>();
+            services.AddScoped<IAuthorService, AuthorService>();
+            services.AddScoped<IPublisherService, PublisherService>();
+            services.AddScoped<IBookRepository, BookRepository>();
+            services.AddScoped<IOrderRepository, OrderRepository>();
             services.AddDbContext<BookstoreDbContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));

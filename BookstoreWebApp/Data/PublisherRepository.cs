@@ -4,14 +4,15 @@ using System.Linq;
 using System.Threading.Tasks;
 using BookstoreWebApp.Data;
 using BookstoreWebApp.Models;
+using Microsoft.EntityFrameworkCore;
 
-namespace BookstoreWebApp.Repositories
+namespace BookstoreWebApp.Data
 {
-    public class PublisherRepository : IRepository<Publisher>
+    public class PublisherRepository : IPublisherRepository
     {
-        private readonly BookstoreDBContext _context;
+        private readonly BookstoreDbContext _context;
 
-        public PublisherRepository(BookstoreDBContext context)
+        public PublisherRepository(BookstoreDbContext context)
         {
             _context = context;
         }
@@ -20,9 +21,9 @@ namespace BookstoreWebApp.Repositories
             return await _context.Publishers.ToListAsync();
         }
 
-        public async Task<Publisher> Get(int id)
+        public Publisher Get(int id)
         {
-            return await _context.Publishers.FirstOrDefault(p => p.Id == id);
+            return _context.Publishers.FirstOrDefault(p => p.Id == id);
         }
 
         public async Task<Publisher> Add(Publisher entity)
@@ -50,6 +51,12 @@ namespace BookstoreWebApp.Repositories
                 throw new InvalidOperationException("Author does not exist");
             _context.Publishers.Remove(publisher);
             await _context.SaveChangesAsync();
+            return publisher;
+        }
+
+        public bool Exists(int id)
+        {
+            return _context.Publishers.Any(p => p.Id == id);
         }
     }
 }
