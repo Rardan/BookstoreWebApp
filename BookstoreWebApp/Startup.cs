@@ -47,6 +47,8 @@ namespace BookstoreWebApp
             {
                 options.User.RequireUniqueEmail = true;
             })
+                .AddDefaultTokenProviders()
+                .AddDefaultUI()
                 .AddEntityFrameworkStores<BookstoreDbContext>();
 
             services.AddScoped<IBookRepository, BookRepository>();
