@@ -14,5 +14,6 @@ namespace BookstoreWebApp.Services
         Task<Author> Update(Author entity);
         Task<Author> Delete(int id);
         bool Exists(int id);
+        Task<List<Author>> GetFiltered(string? searchString);
     }
 }

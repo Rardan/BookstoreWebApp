@@ -44,5 +44,10 @@ namespace BookstoreWebApp.Services
         {
             return _authorRepository.Exists(id);
         }
+
+        public Task<List<Author>> GetFiltered(string? searchString)
+        {
+            return _authorRepository.GetFiltered(searchString);
+        }
     }
 }

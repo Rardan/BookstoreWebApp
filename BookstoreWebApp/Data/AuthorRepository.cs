@@ -61,5 +61,14 @@ namespace BookstoreWebApp.Data
         {
             return _context.Authors.Any(e => e.Id == id);
         }
+
+        public async Task<List<Author>> GetFiltered(string? searchString)
+        {
+            return await  _context.Authors
+                .Include(a => a.BookAuthors)
+                .Where(a => a.Name
+                .Contains(searchString))
+                .ToListAsync();
+        }
     }
 }

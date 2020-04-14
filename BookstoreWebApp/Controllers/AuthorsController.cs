@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using BookstoreWebApp.Data;
+using BookstoreWebApp.Helpers;
 using BookstoreWebApp.Models;
 using BookstoreWebApp.Services;
 
@@ -20,9 +21,22 @@ namespace BookstoreWebApp.Controllers
         }
 
         // GET: Authors
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string currentFilter, string? searchString, int? pageNumber)
         {
-            return View(await _authorService.GetAll());
+            ViewData["CurrentFilter"] = searchString;
+            if (searchString != null)
+            {
+                pageNumber = 1;
+                return View(await PaginatedList<Author>.CreateAsync(_authorService.GetFiltered(searchString),
+                    pageNumber ?? 1, 20));
+            }
+            else
+            {
+                searchString = currentFilter;
+            }
+            ViewData["CurrentFilter"] = searchString;
+            int pageSize = 20;
+            return View(await PaginatedList<Author>.CreateAsync(_authorService.GetAll(), pageNumber ?? 1, pageSize));
         }
 
         // GET: Authors/Details/5
