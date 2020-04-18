@@ -1,0 +1,33 @@
+﻿@model IEnumerable<BookstoreWebApp.Models.Book>
+
+@{
+    ViewData["Title"] = "IndexAll";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container">
+    @for (int i = 0; i < 5; i++)
+    {
+        <div class="row m-1">
+            @foreach (var item in Model)
+            {
+
+                int id = item.Id;
+                int trueId = id - 2;
+
+                <div class="col-sm-6 col-md-4 col-lg-3 m-2">
+                    <div class="card h-100 border-primary m-1">
+                        <div class="card-header-extdk">@item.Title <br /> Author: @item.Author</div>
+                        <a asp-action="BookDetails" asp-controller="Book" asp-route-id="@trueId "><img class="card-img-extdk" src="@item.Photo"></a>
+                        <div class="card-footer-extdk"> 
+                            Price: @item.Price   <br />
+                            <input type="button" value="AddToCart" class="btn cartbutton" />
+                        </div>
+                    </div>
+                </div>
+               
+            }
+        </div>
+
+    }
+</div>

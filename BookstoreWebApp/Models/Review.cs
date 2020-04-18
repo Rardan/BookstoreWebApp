@@ -5,10 +5,13 @@ using System.Threading.Tasks;
 
 namespace BookstoreWebApp.Models
 {
-    public class Author
+    public class Review
     {
         public int Id { get; set; }
-        public string Name { get; set; }
-        public ICollection<BookAuthor> BookAuthors { get; set; }
+        public decimal Rate { get; set; }
+        public string Description { get; set; }
+
+        public Book Book { get; set; }
+
     }
 }

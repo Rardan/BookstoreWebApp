@@ -15,16 +15,16 @@
     <div class="container">
         <div class="row Details Row">
             <div class="col-md-4">
-                    <img src="@Html.DisplayFor(model=>model.Photo)" class="portrait" alt="Picture of book">
+                <img src="@Html.DisplayFor(model=>model.Photo)" class="portrait" alt="Picture of book">
             </div>
-            <div class="Main col-md-4" >
+            <div class="Main col-md-4">
                 <div class="row">
                     <div class="col-md-6">Title:</div>
                     <div class="col-md-6">@Html.DisplayFor(model => model.Title)</div>
                 </div>
                 <div class="row">
                     <div class="col-md-6">Author:</div>
-                    @{ 
+                    @{
                         var autor = (Author)ViewData["Author"];
                     }
                     <div class="col-md-6">@autor.Name</div>
@@ -34,10 +34,34 @@
                     <div class="col-md-6">@Html.DisplayFor(model => model.Price) zł</div>
                 </div>
             </div>
-            <div class="Order col-md-4"></div>
+            <div class="divborder col-md-4">
+                <div class="row">
+                    <div class="col-md-6">Price:</div>
+                    <div class="col-md-6">@Html.DisplayFor(model => model.Price) zł</div>
+                </div>
+                <div class="row top-buffer">
+                    <div class="col-md-4"></div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <input type="button" value="AddToCart" class="btn cartbutton" />
+                        </div>
+                    </div>
+                    <div class="col-md-4"></div>
+                </div>
+            </div>
         </div>
-        <div class="row Description row">
-            <div class="col-xs-12"></div>
+
+        <div class="row top-buffer">
+            <div class="col-xs-12">
+                <div class="row">
+                    <div class="col-md-6">Description</div>
+
+                </div>
+                <div class="row">
+                    <div class="col-md-6">@Html.DisplayFor(model => model.Description) zł</div>
+                </div>
+
+            </div>
         </div>
     </div>
 </body>

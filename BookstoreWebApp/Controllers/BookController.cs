@@ -22,13 +22,30 @@ namespace BookstoreWebApp.Controllers
             _appEnvironment = appEnvironment;
         }
 
-      
 
         public IActionResult Index()
         {
+
             return View();
         }
 
+        public IActionResult IndexCase(String genreroute)
+        {
+            var stringBook = genreroute;
+            switch(genreroute)
+            {
+                case "All":
+                    return RedirectToAction("IndexAll");
+                default:
+                    return RedirectToAction("Index");
+            }
+        }
+
+        public IActionResult IndexAll()
+        {
+            var allBooks = _context.Books.ToList();
+            return View(allBooks);
+        }
 
         public  IActionResult BookDetails(int? id)
         {
