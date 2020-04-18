@@ -36,6 +36,7 @@ namespace BookstoreWebApp
             services.AddScoped<IAuthorService, AuthorService>();
             services.AddScoped<IPublisherService, PublisherService>();
             services.AddScoped<IBookRepository, BookRepository>();
+            services.AddScoped<IBookService, BookService>();
             services.AddScoped<IOrderRepository, OrderRepository>();
             services.AddDbContext<BookstoreDbContext>(options =>
                 options.UseSqlServer(

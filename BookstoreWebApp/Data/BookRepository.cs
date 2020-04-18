@@ -16,11 +16,27 @@ namespace BookstoreWebApp.Data
             _bookstoreDbContext = bookstoreDbContext;
         }
 
-        public IEnumerable<Book> Books => _bookstoreDbContext.Books
-            .Include(a => a.Author).Include(p => p.Publisher)
-            .Include(g => g.Genre).Include(s => s.Storage);
-        public Book GetBookById(int bookId) => _bookstoreDbContext.Books.FirstOrDefault(b => b.Id == bookId);
+        public async Task<List<Book>> Books()
+        {
+            return await _bookstoreDbContext.Books
+                .Include(a => a.Author)
+                .Include(p => p.Publisher)
+                .Include(g => g.Genre)
+                .Include(s => s.Storage)
+                .ToListAsync();
+        }
 
+        public async Task<ICollection<Book>> Get3Books()
+        {
+            return await _bookstoreDbContext.Books
+                .Include(a => a.Author)
+                .Include(p => p.Publisher)
+                .Include(g => g.Genre)
+                .Include(s => s.Storage)
+                .Take(3).ToListAsync();
+        }
+
+        public Book GetBookById(int bookId) => _bookstoreDbContext.Books.FirstOrDefault(b => b.Id == bookId);
         public void IncreaseInStorage(int bookId)
         {
             var storage = _bookstoreDbContext.Storages.FirstOrDefault(i => i.BookId == bookId);
@@ -31,6 +47,25 @@ namespace BookstoreWebApp.Data
                 _bookstoreDbContext.Update(storage);
                 _bookstoreDbContext.SaveChanges();
             }
+        }
+        public async Task<List<Book>> GetFiltered(string searchString)
+        {
+            var bookByTitle = await _bookstoreDbContext.Books
+                .Include(a => a.Author)
+                .Include(p => p.Publisher)
+                .Include(g => g.Genre)
+                .Include(s => s.Storage)
+                .Where(b => b.Title.Contains(searchString))
+                .ToListAsync();
+            
+            var bookByIsbn = await _bookstoreDbContext.Books
+                .Include(a => a.Author)
+                .Include(p => p.Publisher)
+                .Include(g => g.Genre)
+                .Include(s => s.Storage)
+                .Where(b => b.ISBN.Contains(searchString))
+                .ToListAsync();
+            return  bookByTitle.Count != 0 ? bookByTitle : bookByIsbn;
         }
 
         public void DecreaseInStorage(int bookId)
@@ -46,6 +81,11 @@ namespace BookstoreWebApp.Data
                     _bookstoreDbContext.SaveChanges();
                 }
             }
+        }
+
+        public bool Exists(int id)
+        {
+            return _bookstoreDbContext.Books.Any(b => b.Id == id);
         }
 
         public IEnumerable<Storage> Storages => _bookstoreDbContext.Storages
