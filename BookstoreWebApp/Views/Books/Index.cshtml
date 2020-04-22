@@ -25,56 +25,31 @@
     </div>
 </form>
 
-<table class="table">
-    <thead>
-    <tr>
-        <th>
-            Title
-        </th>
-        <th>
-            Author
-        </th>
-        <th>
-            Dating
-        </th>
-        <th>
-            Genre
-        </th>
-        <th>
-            Price
-        </th>
-        <th>
-            
-        </th>
-    </tr>
-    </thead>
-    <tbody>
-    @foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Title)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Author.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Dating)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Genre.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Price)
-            </td>
-            <td>
-                <a asp-action="Index" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Index" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Index" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
-    }
-    </tbody>
-</table>
+
+<div class="container">
+        <div class="row m-1">
+            @foreach (var item in Model)
+            {
+
+                int id = item.Id;
+                int trueId = id - 2;
+
+                <div class="col-sm-6 col-md-4 col-lg-3 m-2">
+                    <div class="card h-100 border-primary m-1">
+                        <div class="card-header">@item.Title <br /> Author: @item.Author.Name</div>
+                        <a asp-action="Details" asp-controller="Books" asp-route-id="@item.Id "><img class="card-img-extdk" src="@item.Photo"></a>
+                        <div class="card-footer">
+                            Price: @item.Price  <br />
+                            <input type="button" value="AddToCart" class="btn cartbutton" />
+                        </div>
+                    </div>
+                </div>
+
+            }
+        </div>
+
+</div>
+
 @{
     var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
     var nextDisabled = !Model.HasNextPage ? "disabled" : "";
