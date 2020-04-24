@@ -16,15 +16,8 @@ namespace BookstoreWebApp.Data
             _bookstoreDbContext = bookstoreDbContext;
         }
 
-        public async Task<List<Book>> Books()
-        {
-            return await _bookstoreDbContext.Books
-                .Include(a => a.Author)
-                .Include(p => p.Publisher)
-                .Include(g => g.Genre)
-                .Include(s => s.Storage)
-                .ToListAsync();
-        }
+        public List<Book> Books => _bookstoreDbContext.Books.Include(a => a.Author).Include(p => p.Publisher).Include(g => g.Genre).Include(s => s.Storage).ToList();
+
 
         public async Task<ICollection<Book>> Get3Books()
         {

@@ -6,7 +6,7 @@ namespace BookstoreWebApp.Data
 {
     public interface IBookRepository
     {
-        Task<List<Book>> Books();
+        List<Book> Books { get; }
         Task<ICollection<Book>> Get3Books();
         IEnumerable<Storage> Storages { get; }
 

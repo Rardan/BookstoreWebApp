@@ -16,7 +16,7 @@ namespace BookstoreWebApp.Services
         
         public async Task<List<Book>> GetAll()
         {
-            return await _bookRepository.Books();
+            return _bookRepository.Books;
         }
 
         public async Task<ICollection<Book>> Get3Books()
