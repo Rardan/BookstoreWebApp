@@ -27,27 +27,28 @@
 
 
 <div class="container">
-        <div class="row m-1">
-            @foreach (var item in Model)
-            {
+    <div class="row m-1 justify-content-center">
+        @foreach (var item in Model)
+        {
 
-                int id = item.Id;
-                int trueId = id - 2;
+            int id = item.Id;
+            int trueId = id - 2;
 
-                <div class="col-sm-6 col-md-4 col-lg-3 m-2">
-                    <div class="card h-100 border-primary m-1">
-                        <div class="card-header">@item.Title <br /> Author: @item.Author.Name</div>
-                        <a asp-action="Details" asp-controller="Books" asp-route-id="@item.Id "><img class="card-img-extdk" src="@item.Photo"></a>
-                        <div class="card-footer">
-                            Price: @item.Price  <br />
-                            <input type="button" value="AddToCart" class="btn cartbutton" />
-                        </div>
+            <div class="col-sm-6 col-md-4 col-lg-3 m-2">
+                <div class="card h-100 m-1">
+                    <div class="card-header">@item.Title <br /> Author: @item.Author.Name</div>
+                    <a asp-action="Details" asp-controller="Books" asp-route-id="@item.Id "><img class="card-img-extdk" src="@item.Photo"></a>
+                    <div class="card-footer">
+                        Price: @item.Price  <br />
+                        <form asp-action="Details" asp-route-id="@item.Id" method="get">
+                                <input type="button" class="btn cartbutton-responsive" onclick="AddToCart(@item.Id)"/>
+                        </form>
                     </div>
                 </div>
+            </div>
 
-            }
-        </div>
-
+        }
+    </div>
 </div>
 
 @{
@@ -56,14 +57,14 @@
 }
 
 <a asp-action="Index"
-   asp-route-pageNumber="@(Model.PageIndex - 1)"
-   asp-route-currentFilter="@ViewData["CurrentFilter"]"
-   class="btn btn-primary @prevDisabled">
+    asp-route-pageNumber="@(Model.PageIndex - 1)"
+    asp-route-currentFilter="@ViewData["CurrentFilter"]"
+    class="btn btn-primary @prevDisabled">
     Previous
 </a>
 <a asp-action="Index"
-   asp-route-pageNumber="@(Model.PageIndex + 1)"
-   asp-route-currentFilter="@ViewData["CurrentFilter"]"
-   class="btn btn-primary @nextDisabled">
+    asp-route-pageNumber="@(Model.PageIndex + 1)"
+    asp-route-currentFilter="@ViewData["CurrentFilter"]"
+    class="btn btn-primary @nextDisabled">
     Next
 </a>

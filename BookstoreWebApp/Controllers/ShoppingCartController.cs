@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using BookstoreWebApp.Data;
 using BookstoreWebApp.Models;
+using BookstoreWebApp.Services;
 using BookstoreWebApp.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 
@@ -14,7 +15,7 @@ namespace BookstoreWebApp.Controllers
         private readonly IBookRepository _bookRepository;
         private readonly ShoppingCart _shoppingCart;
 
-        public ShoppingCartController(IBookRepository bookRepository, ShoppingCart shoppingCart)
+        public ShoppingCartController(IBookRepository bookRepository, ShoppingCart shoppingCart, IBookService bookService)
         {
             _bookRepository = bookRepository;
             _shoppingCart = shoppingCart;
@@ -33,15 +34,16 @@ namespace BookstoreWebApp.Controllers
             return View(shoppingCartViewModel);
         }
 
-        public async Task<RedirectToActionResult> AddToShoppingCart(int productId)
+        public IActionResult AddToShoppingCart(int? id)
         {
-            var selectedProduct = _bookRepository.Books.FirstOrDefault(p => p.Id == productId);
+            var selectedProduct = _bookRepository.Books.FirstOrDefault(p => p.Id == id);
             if (selectedProduct != null)
             {
                 _shoppingCart.AddToCart(selectedProduct, 1);
             }
             return RedirectToAction("Index");
         }
+
 
         public async Task<RedirectToActionResult> RemoveFromShoppingCart(int productId)
         {
@@ -51,6 +53,33 @@ namespace BookstoreWebApp.Controllers
                 _shoppingCart.RemoveFromCart(selectedProduct);
             }
             return RedirectToAction("Index");
+        }
+        
+    }
+
+    public class ShoppingCartViewComponent: ViewComponent
+    {
+        private readonly ShoppingCart _shoppingCart;
+        private readonly IBookRepository _bookRepository;
+        public IViewComponentResult CartSummary()
+        {
+            var shoppingCartViewModel = new ShoppingCartViewModel
+            {
+                ShoppingCart = _shoppingCart,
+                ShoppingCartTotal = _shoppingCart.GetShoppingCartTotal()
+            };
+            return View(shoppingCartViewModel);
+        }
+
+        public IViewComponentResult Invoke()
+        {
+            return View(_shoppingCart);
+        }
+
+        public ShoppingCartViewComponent(IBookRepository bookRepository, ShoppingCart shoppingCart)
+        {
+            _bookRepository = bookRepository;
+            _shoppingCart = shoppingCart;
         }
     }
 }
