@@ -9,12 +9,12 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace BookstoreWebApp.Controllers
 {
-    public class ShoppingCartItemController : Controller
+    public class ShoppingCartController : Controller
     {
         private readonly IBookRepository _bookRepository;
         private readonly ShoppingCart _shoppingCart;
 
-        public ShoppingCartItemController(IBookRepository bookRepository, ShoppingCart shoppingCart)
+        public ShoppingCartController(IBookRepository bookRepository, ShoppingCart shoppingCart)
         {
             _bookRepository = bookRepository;
             _shoppingCart = shoppingCart;
