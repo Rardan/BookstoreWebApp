@@ -34,7 +34,7 @@
             int id = item.Id;
             int trueId = id - 2;
 
-            <div class="col-sm-6 col-md-4 col-lg-3 m-2">
+            <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 m-2">
                 <div class="card h-100 m-1">
                     <div class="card-header">@item.Title <br /> Author: @item.Author.Name</div>
                     <a asp-action="Details" asp-controller="Books" asp-route-id="@item.Id "><img class="card-img-extdk" src="@item.Photo"></a>

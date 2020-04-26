@@ -8,9 +8,9 @@
     <div style="margin-top: 10%" class="container-fluid">
     @foreach (var item in Model) {
             
-                <div class="col-sm-12 col-md-4 float-left">
+                <div class="col-sm-12 col-sm-6 col-md-4 float-left">
                     <a asp-action="Details" asp-controller="Books" asp-route-id="@item.Id ">
-                    <img src=@Html.DisplayFor(modelItem => item.Photo) />
+                    <img class="book-cover" src=@Html.DisplayFor(modelItem => item.Photo) />
                     </a>
                     <div>
                         <h5>@Html.DisplayFor(modelItem => item.Title)</h5>
