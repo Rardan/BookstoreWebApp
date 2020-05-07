@@ -27,7 +27,7 @@ namespace BookstoreWebApp.Controllers
                     pageNumber ?? 1, 20));
             }
             searchString = currentFilter;
-            
+
             ViewData["CurrentFilter"] = searchString;
             int pageSize = 20;
             return View(await PaginatedList<Book>.CreateAsync(_bookService.GetAll(), pageNumber ?? 1, pageSize));
