@@ -18,59 +18,22 @@ namespace BookstoreWebApp.Data
 
         public List<Review> Reviews => _bookstoreDbContext.Reviews.Include(b => b.Book).Include(d => d.Description).Include(r => r.Rate).ToList();
 
-        public Book GetBookById(int bookId) => _bookstoreDbContext.Books.FirstOrDefault(b => b.Id == bookId);
-        public void IncreaseInStorage(int bookId)
+        public async Task<List<Review>> GetFiltered(string searchString)
         {
-            var storage = _bookstoreDbContext.Storages.FirstOrDefault(i => i.BookId == bookId);
-
-            if (storage != null)
-            {
-                storage.Amount++;
-                _bookstoreDbContext.Update(storage);
-                _bookstoreDbContext.SaveChanges();
-            }
-        }
-        public async Task<List<Book>> GetFiltered(string searchString)
-        {
-            var bookByTitle = await _bookstoreDbContext.Books
-                .Include(a => a.Author)
-                .Include(p => p.Publisher)
-                .Include(g => g.Genre)
-                .Include(s => s.Storage)
-                .Where(b => b.Title.Contains(searchString))
+            var reviewByBookAuthor = await _bookstoreDbContext.Reviews
+                .Include(r => r.Rate)
+                .Include(d => d.Description)
+                .Where(b => b.Book.Author.Name.Contains(searchString))
                 .ToListAsync();
 
-            var bookByIsbn = await _bookstoreDbContext.Books
-                .Include(a => a.Author)
-                .Include(p => p.Publisher)
-                .Include(g => g.Genre)
-                .Include(s => s.Storage)
-                .Where(b => b.ISBN.Contains(searchString))
+            var reviewByBookTitle = await _bookstoreDbContext.Reviews
+                .Include(r => r.Rate)
+                .Include(d => d.Description)
+                .Where(b => b.Book.Title.Contains(searchString))
                 .ToListAsync();
-            return bookByTitle.Count != 0 ? bookByTitle : bookByIsbn;
+            return reviewByBookAuthor.Count != 0 ? reviewByBookAuthor: reviewByBookTitle;
         }
 
-        public void DecreaseInStorage(int bookId)
-        {
-            var storage = _bookstoreDbContext.Storages.FirstOrDefault(i => i.BookId == bookId);
-
-            if (storage != null)
-            {
-                if (storage.Amount > 0)
-                {
-                    storage.Amount++;
-                    _bookstoreDbContext.Update(storage);
-                    _bookstoreDbContext.SaveChanges();
-                }
-            }
-        }
-
-        public bool Exists(int id)
-        {
-            return _bookstoreDbContext.Books.Any(b => b.Id == id);
-        }
-
-        public IEnumerable<Storage> Storages => _bookstoreDbContext.Storages
-            .Include(b => b.Book).ThenInclude(a => a.Author);
+        public Review GetReviewById(int reviewId) => _bookstoreDbContext.Reviews.FirstOrDefault(r => r.Id == reviewId);
     }
 }
