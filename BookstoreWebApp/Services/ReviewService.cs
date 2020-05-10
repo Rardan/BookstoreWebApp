@@ -19,17 +19,12 @@ namespace BookstoreWebApp.Services
             return _reviewRepository.Reviews;
         }
 
-        public Review Get(int id)
+        public Review Get(int bookId)
         {
-            return _reviewRepository.GetReviewById(id);
+            return _reviewRepository.GetReviewById(bookId);
         }
 
         public Task<Review> Add(Review entity)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public Task<Review> Delete(int id)
         {
             throw new System.NotImplementedException();
         }

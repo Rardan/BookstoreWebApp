@@ -6,10 +6,9 @@ namespace BookstoreWebApp.Services
 {
     public interface IReviewService
     {
-        Task<List<Book>> GetAll();
-        Book Get(int id);
-        Task<Book> Add(Review entity);
-        Task<Book> Delete(int id);
-        Task<List<Book>> GetFiltered(string? searchString);
+        Task<List<Review>> GetAll();
+        Review Get(int bookId);
+        Task<Review> Add(Review entity);
+        Task<List<Review>> GetFiltered(string? searchString);
     }
 }

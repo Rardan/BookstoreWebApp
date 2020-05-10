@@ -8,6 +8,7 @@ namespace BookstoreWebApp.Data
     {
         List<Review> Reviews { get; }
 
+        // TODO: change to find by bookID
         Review GetReviewById(int reviewId);
         Task<List<Review>> GetFiltered(string searchString);
     }
