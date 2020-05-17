@@ -19,9 +19,9 @@ namespace BookstoreWebApp.Services
             return _reviewRepository.Reviews;
         }
 
-        public Review Get(int bookId)
+        public List<Review> Get(int bookId)
         {
-            return _reviewRepository.GetReviewById(bookId);
+            return _reviewRepository.GetReviewsById(bookId);
         }
 
         public Task<Review> Add(Review entity)

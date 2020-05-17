@@ -7,7 +7,7 @@ namespace BookstoreWebApp.Services
     public interface IReviewService
     {
         Task<List<Review>> GetAll();
-        Review Get(int bookId);
+        List<Review> Get(int bookId);
         Task<Review> Add(Review entity);
         Task<List<Review>> GetFiltered(string? searchString);
     }

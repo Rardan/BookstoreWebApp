@@ -1,4 +1,4 @@
-﻿@model BookstoreWebApp.Models.Book
+﻿@model BookstoreWebApp.ViewModels.DetailsViewModel
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
@@ -15,12 +15,12 @@
     <div class="container">
         <div class="row Details Row">
             <div class="col-md-4">
-                <img src="@Html.DisplayFor(model=>model.Photo)" class="portrait book-cover" alt="Picture of book">
+                <img src="@Html.DisplayFor(model=>model.Book.Photo)" class="portrait book-cover" alt="Picture of book">
             </div>
             <div class="Main col-md-4">
                 <div class="row">
                     <div class="col-md-6">Title:</div>
-                    <div class="col-md-6">@Html.DisplayFor(model => model.Title)</div>
+                    <div class="col-md-6">@Html.DisplayFor(model => model.Book.Title)</div>
                 </div>
                 <div class="row">
                     <div class="col-md-6">Author:</div>
@@ -31,19 +31,19 @@
                 </div>
                 <div class="row">
                     <div class="col-md-6">Price:</div>
-                    <div class="col-md-6">@Html.DisplayFor(model => model.Price) zł</div>
+                    <div class="col-md-6">@Html.DisplayFor(model => model.Book.Price) zł</div>
                 </div>
             </div>
             <div class="divborder col-md-4">
                 <div class="row">
                     <div class="col-md-6">Price:</div>
-                    <div class="col-md-6">@Html.DisplayFor(model => model.Price) zł</div>
+                    <div class="col-md-6">@Html.DisplayFor(model => model.Book.Price) zł</div>
                 </div>
                 <div class="row top-buffer">
                     <div class="col-md-4"></div>
                     <div class="col-md-4">
                         <div class="form-group">
-                            <input type="button" class="btn cartbutton" onclick="AddToCart(@Model.Id)" />
+                            <input type="button" class="btn cartbutton" onclick="AddToCart(@Model.Book.Id)" />
                         </div>
                     </div>
                     <div class="col-md-4"></div>
@@ -52,7 +52,7 @@
                     <div class="col-md-4"></div>
                     <div class="col-md-4">
                         <div class="form-group">
-                            <input type="button" onclick="AddReview(@Model.Id)" />
+                            <input type="button" class="btn add" onclick="AddReview(@Model.Book.Id)" />
                         </div>
                     </div>
                     <div class="col-md-4"></div>
@@ -67,9 +67,19 @@
 
                 </div>
                 <div class="row">
-                    <div class="col-md-6">@Html.DisplayFor(model => model.Description)</div>
+                    <div class="col-md-6">@Html.DisplayFor(model => model.Book.Description)</div>
                 </div>
 
+            </div>
+        </div>
+    </div>
+    <div class="row ">
+        <div class="col-xs-12">
+            <div class="row">
+                <div class="col-md-6">@Html.DisplayFor(model => model.Review.Rate)</div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">@Html.DisplayFor(model => model.Review.Description)</div>
             </div>
         </div>
     </div>

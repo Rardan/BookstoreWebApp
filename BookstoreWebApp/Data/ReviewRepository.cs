@@ -34,6 +34,6 @@ namespace BookstoreWebApp.Data
             return reviewByBookAuthor.Count != 0 ? reviewByBookAuthor: reviewByBookTitle;
         }
 
-        public Review GetReviewById(int reviewId) => _bookstoreDbContext.Reviews.FirstOrDefault(r => r.Id == reviewId);
+        public List<Review> GetReviewsById(int bookId) => _bookstoreDbContext.Reviews.Where(r => r.Id == bookId).ToListAsync();
     }
 }
