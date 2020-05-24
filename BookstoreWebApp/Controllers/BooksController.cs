@@ -45,9 +45,9 @@ namespace BookstoreWebApp.Controllers
             var reviews = _reviewService.Get(BookId);
             var details = new DetailsViewModel{Book = book, Reviews = reviews};
             // Can I pass vector here?
-            //var reviews = _ 
+            //var reviews = _
             ViewData["Author"] = author;
-            return View(book);
+            return View(details);
         }
     }
 }
