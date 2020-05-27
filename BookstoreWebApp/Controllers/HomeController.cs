@@ -6,21 +6,24 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using BookstoreWebApp.Models;
+using BookstoreWebApp.Services;
 
 namespace BookstoreWebApp.Controllers
 {
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly IBookService _bookService;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, IBookService bookService)
         {
             _logger = logger;
+            _bookService = bookService;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
+            return View(await _bookService.Get3Books());
         }
 
         public IActionResult Privacy()

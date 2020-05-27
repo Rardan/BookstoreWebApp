@@ -1,0 +1,45 @@
+﻿@model ShoppingCartViewModel
+
+    <div class="row m-5">
+        <h2>Your shopping cart</h2>
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th>Selected amount</th>
+                    <th>Product</th>
+                    <th class="text-right">Price</th>
+                    <th class="text-right">Subtotal</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.ShoppingCart.ShoppingCartItems)
+                {
+                    <tr>
+                        <td class="text-center">@item.Amount</td>
+                        <td class="text-left">@item.Book.Title - @item.Book.Author.Name</td>
+                        <td class="text-right">@item.Book.Price.ToString("c")</td>
+                        <td class="text-right">@((item.Amount * item.Book.Price).ToString("c"))</td>
+                        <td class="text-center">
+                            <a class="text-danger remove"
+                               asp-controller="ShoppingCart" asp-action="RemoveFromShoppingCart"
+                               asp-route-productId="@item.Book.Id">X</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="3" class="text-right">Total:</td>
+                    <td class="text-right">@Model.ShoppingCartTotal.ToString("c")</td>
+                </tr>
+            </tfoot>
+        </table>
+
+        <div class="text-right">
+            <div>
+                <a class="btn btn-success" asp-controller="Order" asp-action="Checkout">Checkout</a>
+                <a class="btn btn-outline-primary" asp-controller="Home" asp-action="Shop" style="margin-left: 1px">Add more products</a>
+            </div>
+        </div>
+    </div>

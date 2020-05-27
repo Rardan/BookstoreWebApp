@@ -1,0 +1,81 @@
+﻿@model BookstoreWebApp.Models.ShoppingCart
+@{
+    var items = Model.GetShoppingCartItems();
+}
+<link rel="stylesheet" href="~/css/shoppingcart.css" />
+<a href="#" class="dropdown-toggle cart-dropbox-button" data-toggle="dropdown" role="button" aria-expanded="false">
+
+</a>
+
+
+<div class="shopping-cart dropdown-menu">
+    <div class="shopping-cart-header">
+        <i class="fa fa-shopping-cart cart-icon"></i><span class="badge">@Model.GetShoppingCartItems().Count()</span>
+        <div class="shopping-cart-total">
+            <span class="lighter-text">Total:</span>
+            <span class="main-color-text">@Model.GetShoppingCartTotal() zł</span>
+        </div>
+    </div>
+
+    <ul class="shopping-cart-items" role="menu" aria-labelledby="dropdownMenu" style="height: 200px; overflow: auto">
+        @if (Model.GetShoppingCartItems().Count() == 0)
+        {
+            <li><a tabindex="-1" href="#">No items in your cart</a></li>
+        }
+        else
+        {
+            @foreach (var item in items)
+            {
+                <li>
+                    <img src="@item.Book.Photo" alt="" />
+                    <span class="item-name">@item.Book.Title</span>
+                    <span class="item-price">@item.Book.Price zł </span>
+                    <span class="item-quantity">Quantity: @item.Amount</span>
+                </li>
+
+            }
+
+        }
+
+    </ul>
+    <a asp-controller="ShoppingCart" asp-action="Checkout" class="button">Checkout</a>
+</div>    
+@*</div> end shopping-cart*@ 
+@*<ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu">
+        @if (Model == null)
+        {
+            <li><a tabindex="-1" href="#">No items in your cart</a></li>
+        }
+        else
+        {
+            @foreach (var item in items)
+            {
+                <li class="p-1 m-1">
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <img src="@item.Book.Photo" style="width:50px; height:50px;" />
+                        </div>
+                        <div class="col-sm-3">
+                            @item.Book.Price zł
+                        </div>
+                        <div class="col-sm-3">
+                            <a class="text-danger remove"
+                               asp-controller="ShoppingCart" asp-action="RemoveFromShoppingCart"
+                               asp-route-productId="@item.Book.Id">X</a>
+                        </div>
+                    </div>
+                </li>
+            }
+
+        }
+        Total: @Model.GetShoppingCartTotal() zł <br>
+        <a class="btn text-info" asp-controller="ShoppingCart" asp-action="Index">Your cart</a>
+        @if(items.Count != 0) {
+        <a class="btn text-success" asp-controller="Order" asp-action="Checkout">Checkout</a>
+        }
+
+
+        <li class="divider"></li>
+        <li><a tabindex="-1" href="#"></a></li>
+    </ul>*@
+

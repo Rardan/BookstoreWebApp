@@ -22,7 +22,7 @@ namespace BookstoreWebApp.Controllers
         }
 
         // GET: Publishers
-        public async Task<IActionResult> Index(string currentFilter, string? searchString, int? pageNumber)
+        public async Task<IActionResult> Index(string currentFilter, string searchString, int? pageNumber)
         {
             if (searchString != null)
             {

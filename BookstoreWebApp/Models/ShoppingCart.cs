@@ -23,7 +23,7 @@ namespace BookstoreWebApp.Models
 
         public static ShoppingCart GetCart(IServiceProvider services)
         {
-            ISession session = services.GetRequiredService<HttpContextAccessor>()?
+            ISession session = services.GetRequiredService<IHttpContextAccessor>()?
                 .HttpContext.Session;
 
             var context = services.GetService<BookstoreDbContext>();
@@ -32,6 +32,14 @@ namespace BookstoreWebApp.Models
             session.SetString("CartId", cartId);
             return new ShoppingCart(context) { ShoppingCartId = cartId };
         }
+
+        //public static ShoppingCart GetCart(ISession session, BookstoreDbContext context)
+        //{
+        //    string cartId = session.GetString("CartId") ?? Guid.NewGuid().ToString();
+
+        //    session.SetString("CartId", cartId);
+        //    return new ShoppingCart(context) { ShoppingCartId = cartId };
+        //}
 
         public void AddToCart(Book book, int amount)
         {
@@ -87,7 +95,7 @@ namespace BookstoreWebApp.Models
                 (ShoppingCartItems =
                 _bookstoreDbContext.ShoppingCartItems.Where(c => c.ShoppingCartId == ShoppingCartId)
                 .Include(b => b.Book)
-                .ThenInclude(a=>a.Author)
+                .ThenInclude(a => a.Author)
                 .ToList());
         }
 

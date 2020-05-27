@@ -44,8 +44,8 @@ namespace BookstoreWebApp.Migrations
                     b.Property<int>("AuthorId")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("Dating")
-                        .HasColumnType("datetime2");
+                    b.Property<string>("Dating")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
@@ -229,6 +229,29 @@ namespace BookstoreWebApp.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Publishers");
+                });
+
+            modelBuilder.Entity("BookstoreWebApp.Models.Review", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int?>("BookId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<decimal>("Rate")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BookId");
+
+                    b.ToTable("Reviews");
                 });
 
             modelBuilder.Entity("BookstoreWebApp.Models.ShoppingCartItem", b =>
@@ -527,6 +550,13 @@ namespace BookstoreWebApp.Migrations
                         .HasForeignKey("OrderId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("BookstoreWebApp.Models.Review", b =>
+                {
+                    b.HasOne("BookstoreWebApp.Models.Book", "Book")
+                        .WithMany("Reviews")
+                        .HasForeignKey("BookId");
                 });
 
             modelBuilder.Entity("BookstoreWebApp.Models.ShoppingCartItem", b =>
