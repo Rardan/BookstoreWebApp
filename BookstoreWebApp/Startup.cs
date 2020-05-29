@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
+using System.Net.Mail;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
@@ -55,15 +57,27 @@ namespace BookstoreWebApp
             services.AddScoped<IBookRepository, BookRepository>();
             services.AddScoped<IBookService, BookService>();
             services.AddScoped<IOrderRepository, OrderRepository>();
-
+            services.AddScoped<IEmailSender, EmailSender>();
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddScoped(sp => ShoppingCart.GetCart(sp));
 
+            var client = new SmtpClient("smtp.gmail.com")
+            {
+                Credentials = new NetworkCredential("bookstorewebapp123@gmail.com", "emailziwg"),
+                Port = 587,
+                EnableSsl = true
+                
+            };
+
             services.AddControllersWithViews();
             services.AddRazorPages();
+            services
+                .AddFluentEmail("bookstorewebapp123@gmail.com")
+                .AddRazorRenderer()
+                .AddSmtpSender(client);
 
         }
-
+        
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IServiceProvider serviceProvider)
         {

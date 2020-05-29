@@ -1,0 +1,47 @@
+﻿@using System
+@using BookstoreWebApp
+@using BookstoreWebApp.Models
+@using BookstoreWebApp.ViewModels
+@addTagHelper *, Microsoft.AspNetCore
+
+@model ShoppingCart
+
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title></title>
+</head>
+<body style="background: #80bdff; width: 100%">
+<div class="container col-md-6">
+    <h2 style="text-align: center; color: black">Thank you for your order</h2>
+    <br />
+    <div>
+        <table style="border: 1px solid #000000; width: 50%; margin: auto" class="table table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <th>Amount</th>
+                            <th>Product</th>
+                            <th class="text-right">Price</th>
+                            <th class="text-right">Subtotal</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.ShoppingCartItems)
+                        {
+                            <tr>
+                                <td class="text-center">@item.Amount</td>
+                                <td class="text-left">@item.Book.Title - @item.Book.Author.Name</td>
+                                <td class="text-right">@item.Book.Price.ToString("c")</td>
+                                <td class="text-right">@((item.Amount * item.Book.Price).ToString("c"))</td>
+                            </tr>
+                        }
+                    <tr><td class="text-center"><span style="font-weight: bold">Total: </span> @Model.GetShoppingCartTotal().ToString("#.##")zł</td></tr>
+                    </tbody>
+        </table>
+    </div>
+</div>
+</body>
+</html>
