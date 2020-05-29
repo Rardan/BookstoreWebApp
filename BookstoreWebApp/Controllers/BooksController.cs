@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using BookstoreWebApp.Helpers;
 using BookstoreWebApp.Models;
 using BookstoreWebApp.Services;
+using BookstoreWebApp.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BookstoreWebApp.Controllers
@@ -12,11 +13,12 @@ namespace BookstoreWebApp.Controllers
     {
         private readonly IBookService _bookService;
         private readonly IAuthorService _authorService;
-
-        public BooksController(IBookService bookService, IAuthorService authorService)
+        private readonly IReviewService _reviewService;
+        public BooksController(IBookService bookService, IAuthorService authorService, IReviewService reviewService)
         {
             _bookService = bookService;
             _authorService = authorService;
+            _reviewService = reviewService;
         }
         
         public async Task<IActionResult> Index(string currentFilter, string searchString, int? pageNumber)
@@ -32,8 +34,7 @@ namespace BookstoreWebApp.Controllers
              * 
              * 
              * 
-             */
-            var books = _bookService.GetAll();
+            */
 
             if (searchString != null)
             {
@@ -45,24 +46,10 @@ namespace BookstoreWebApp.Controllers
             {
                 searchString = currentFilter;
             }
-            switch (currentFilter)
-            {
-                case "name_desc":
-                    books = _bookService.GetFilteredOther("name_desc");
-                    break;
-                case "Price":
-                    books = _bookService.GetFilteredOther("Price");
-                    break;
-                case "price_desc":
-                    books = _bookService.GetFilteredOther("price_desc");
-                    break;
-                default:
-                    books = _bookService.GetFilteredOther("default");
-                    break;
-            }
+
 
             int pageSize = 20;
-            return View(await PaginatedList<Book>.CreateAsync(books, pageNumber ?? 1, pageSize));
+            return View(await PaginatedList<Book>.CreateAsync(_bookService.GetFilteredOther(currentFilter), pageNumber ?? 1, pageSize));
         }
 
         public async Task<IActionResult> Details(int ?id)
@@ -70,8 +57,11 @@ namespace BookstoreWebApp.Controllers
             int BookId = id ?? default(int);
             var book = _bookService.Get(BookId);
             var author = _authorService.Get(book.AuthorId);
+            var reviews = _reviewService.Get(BookId);
+            var highrec = _bookService.Get4Books();
+            var details = new DetailsViewModel { Book = book, Reviews = reviews, OtherBooks = highrec };
             ViewData["Author"] = author;
-            return View(book);
+            return View(details);
         }
 
 

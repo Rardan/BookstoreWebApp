@@ -31,5 +31,6 @@
 
   <ItemGroup>
     <Folder Include="wwwroot\img\" />
+    <Folder Include="wwwroot\scss\" />
   </ItemGroup>
 </Project>

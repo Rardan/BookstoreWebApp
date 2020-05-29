@@ -8,6 +8,7 @@ namespace BookstoreWebApp.Data
     {
         List<Book> Books { get; }
         Task<ICollection<Book>> Get3Books();
+        Task<ICollection<Book>> Get4Books();
         IEnumerable<Storage> Storages { get; }
 
         void DecreaseInStorage(int bookId);

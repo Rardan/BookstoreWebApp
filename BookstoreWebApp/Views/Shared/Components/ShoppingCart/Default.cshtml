@@ -20,13 +20,13 @@
     <ul class="shopping-cart-items" role="menu" aria-labelledby="dropdownMenu" style="height: 200px; overflow: auto">
         @if (Model.GetShoppingCartItems().Count() == 0)
         {
-            <li><a tabindex="-1" href="#">No items in your cart</a></li>
+            <li class="clearfix">No items in your cart</li>
         }
         else
         {
             @foreach (var item in items)
             {
-                <li>
+                <li class="clearfix">
                     <img src="@item.Book.Photo" alt="" />
                     <span class="item-name">@item.Book.Title</span>
                     <span class="item-price">@item.Book.Price zł </span>
@@ -38,6 +38,7 @@
         }
 
     </ul>
+    <a asp-controller="ShoppingCart" asp-action="Index" class="button btn-light">Your cart</a>
     <a asp-controller="ShoppingCart" asp-action="Checkout" class="button">Checkout</a>
 </div>    
 @*</div> end shopping-cart*@ 

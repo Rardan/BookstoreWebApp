@@ -44,6 +44,18 @@ namespace BookstoreWebApp.Controllers
             return RedirectToAction("Index");
         }
 
+        public IActionResult AddToShoppingCartMultiple(int? id, int quantity)
+        {
+            ViewData["QuantityAmount"] = 1;
+            var selectedProduct = _bookRepository.Books.FirstOrDefault(p => p.Id == id);
+            if (selectedProduct != null)
+            {
+                if(quantity == 1) _shoppingCart.AddToCart(selectedProduct, 1);
+                else _shoppingCart.AddToCart(selectedProduct, quantity);
+            }
+            return RedirectToAction("Index");
+        }
+
 
         public async Task<RedirectToActionResult> RemoveFromShoppingCart(int productId)
         {

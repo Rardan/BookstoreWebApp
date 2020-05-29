@@ -3,159 +3,116 @@
 @{
     ViewBag.Title = "Books";
     Layout = "_Layout";
-}
-
-@{
     ViewData["Title"] = "Books";
+    var higlyrecbooks = Model.Take(4);
 }
-<link rel="stylesheet" href="~/css/style.css" />
-<link rel="stylesheet" href="~/css/reset.css" />
-<script src="~/js/modernizr.js"></script>
-<main class="cd-main-content">
-    <div class="cd-tab-filter-wrapper">
 
-    </div> <!-- cd-tab-filter-wrapper -->
+<link rel="stylesheet" href="~/css/site.css" />
+<link href="https://fonts.googleapis.com/css?family=Montserrat:200,300,400,500,600,700,800,900" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" type="text/css" href="~/css/owl.carousel.min.css">
+<link rel="stylesheet" href="~/css/styles.css">
 
-    <section class="cd-gallery">
-        <ul>
-            <div class="row m-1 justify-content-center">
-                @foreach (var item in Model)
-                {
-
-                    <div class="col-sm-6 col-md-4 col-lg-3 m-2">
-                        <div class="card h-100 m-1">
-                            
-                            <a asp-action="Details" asp-controller="Books" asp-route-id="@item.Id "><img class="card-img-extdk p-1" src="@item.Photo"></a>
-                            <div class="card-footer">
-                                @item.Title <br />
-                                Author: @item.Author.Name <br />
-                                Price: @item.Price  <br />
-                                <form asp-action="Details" asp-route-id="@item.Id" method="get">
-                                    <input type="button" class="btn cartbutton-responsive" onclick="AddToCart(@item.Id)" />
-                                </form>
-                            </div>
-                        </div>
+<section class="static about-sec">
+    <div id="filter-panel" class="collapse filter-panel m-3">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <form class="form-inline" role="form">
+                    
+                    <div class="form-group">
+                        <label class="filter-col" style="margin-right:0;" for="pref-search">Search:</label>
+                        <input type="text" class="form-control input-sm" name="SearchString" value="@ViewData["currentFilter"]" id="pref-search">
                     </div>
-
-                }
-            </div>
-            <li class="gap"></li>
-            <li class="gap"></li>
-            <li class="gap"></li>
-        </ul>
-        @*<div class="cd-fail-message">No results found</div>*@
-        @{
-            var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
-            var nextDisabled = !Model.HasNextPage ? "disabled" : "";
-        }
-        <center>
-            <a asp-action="Index"
-               asp-route-pageNumber="@(Model.PageIndex - 1)"
-               asp-route-currentFilter="@ViewData["CurrentFilter"]"
-               class="btn btn-primary @prevDisabled">
-                Previous
-            </a>
-            <a asp-action="Index"
-               asp-route-pageNumber="@(Model.PageIndex + 1)"
-               asp-route-currentFilter="@ViewData["CurrentFilter"]"
-               class="btn btn-primary @nextDisabled">
-                Next
-            </a>
-        </center>
-    </section> <!-- cd-gallery -->
-
-    <div class="cd-filter">
-        <form>
-            <div class="cd-filter-block">
-                <h4>Search</h4>
-
-                <div class="cd-filter-content">
-                    <input type="text" placeholder="Type name of book" name="SearchString" value="@ViewData["currentFilter"]">
-                </div> <!-- cd-filter-content -->
-            </div> <!-- cd-filter-block -->
-
-            <div class="cd-filter-block">
-                <div class="cd-filter-content">
-                    <div class="cd-select cd-filters">
-                        <select class="filter" name="CurrentFilter" id="CurrentFilter">
+                    <div class="form-group">
+                        <label class="filter-col" style="margin-right:0;" for="pref-orderby">Order by:</label>
+                        <select id="pref-orderby" class="form-control" name="CurrentFilter">
                             <option value="">Choose an option</option>
                             <option value="@ViewData["NameAZSortParam"]">A-Z</option>
                             <option value="@ViewData["NameZASortParam"]">Z-A</option>
                             <option value="@ViewData["PriceLowHighSortParam"]">Price: Low to High</option>
                             <option value="@ViewData["PriceHighLowSortParam"]">Price: High to Low</option>
                         </select>
-                    </div> <!-- cd-select -->
-                </div> <!-- cd-filter-content -->
-            </div> <!-- cd-filter-block -->
-            <button type="submit" class="btn btn-primary bg-info">Submit filters</button>
+                    </div>
+                    
+                    <button type="submit" class="newbutton btn-info filter-col ml-2">
+                        Apply Filters
+                    </button>
+                   
+                </form>
+            </div>
+        </div>
+    </div>
+    <button type="button" class="newbutton btn-primary" style="float:right;" data-toggle="collapse" data-target="#filter-panel">
+        <span class="glyphicon glyphicon-cog"></span> Advanced Search
+    </button>
+    <div class="container">
+        <h2>highly recommendes books</h2>
+        <div class="recomended-sec">
+            <div class="row">
+                @foreach (var item in higlyrecbooks)
+                {
+                    <div class="col-lg-3 col-md-6">
+                        <div class="item">
+                            <img src="@item.Photo" alt="img">
+                            <h3>@item.Title</h3>
+                            <h6><span class="price">@item.Price zł </span></h6>
+                            <div class="hover">
+                                <a asp-action="Details" asp-route-id="@item.Id">
+                                    <span><i class="fa fa-long-arrow-right" aria-hidden="true"></i></span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+        <h2>Check out our other books</h2>
+        <div class="recent-book-sec">
+            <div class="row">
+                @foreach (var item in Model)
+                {
+                    <div class="col-md-3">
+                        <div class="item">
+                            <img src="@item.Photo" alt="img">
+                            <h3><a href="#">@item.Title</a></h3>
+                            <h6><span class="price">@item.Price zł </span> / <a asp-controller="ShoppingCart" asp-action="AddToShoppingCart" asp-route-id="@item.Id">Add to cart</a></h6>
+                        </div>
+                    </div>
+                }
+            </div>
+            <div class="btn-sec">
+                @{
+                    var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
+                    var nextDisabled = !Model.HasNextPage ? "disabled" : "";
+                }
+                <center>
+                    <a asp-action="Index"
+                       asp-route-pageNumber="@(Model.PageIndex - 1)"
+                       asp-route-currentFilter="@ViewData["CurrentFilter"]"
+                       class="btn btn-primary @prevDisabled">
+                        Previous
+                    </a>
+                    <a asp-action="Index"
+                       asp-route-pageNumber="@(Model.PageIndex + 1)"
+                       asp-route-currentFilter="@ViewData["CurrentFilter"]"
+                       class="btn btn-primary @nextDisabled">
+                        Next
+                    </a>
+                </center>
+            </div>
+        </div>
+</section>
 
-        </form>
+<footer>
+    <div class="container">
+        <div class="row">
+            
+        </div>
+    </div>
+</footer>
 
-        <a href="#0" class="cd-close">Close</a>
-    </div> <!-- cd-filter -->
 
-    <a href="#0" class="cd-filter-trigger">Filters</a>
-    
-</main> <!-- cd-main-content -->
+
 <script src="js/jquery-2.1.1.js"></script>
 <script src="js/jquery.mixitup.min.js"></script>
 <script src="js/main.js"></script> <!-- Resource jQuery -->
-@*<h1>Books</h1>
-
-    <p>
-        <a asp-action="Index">Add book</a>
-    </p>
-
-    <form asp-action="Index" method="get">
-        <div class="form-actions no-color">
-            <p>
-                Find by name: <input type="text" name="SearchString" value="@ViewData["currentFilter"]" />
-                <input type="submit" value="Search" class="btn btn-primary" /> |
-                <a asp-action="Index">Back to full list</a>
-            </p>
-        </div>
-    </form>
-
-
-    <div class="container">
-        <div class="row m-1 justify-content-center">
-            @foreach (var item in Model)
-            {
-
-                int id = item.Id;
-                int trueId = id - 2;
-
-                <div class="col-sm-6 col-md-4 col-lg-3 m-2">
-                    <div class="card h-100 m-1">
-                        <div class="card-header">@item.Title <br /> Author: @item.Author.Name</div>
-                        <a asp-action="Details" asp-controller="Books" asp-route-id="@item.Id "><img class="card-img-extdk" src="@item.Photo"></a>
-                        <div class="card-footer">
-                            Price: @item.Price  <br />
-                            <form asp-action="Details" asp-route-id="@item.Id" method="get">
-                                    <input type="button" class="btn cartbutton-responsive" onclick="AddToCart(@item.Id)"/>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-
-            }
-        </div>
-    </div>
-
-    @{
-        var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
-        var nextDisabled = !Model.HasNextPage ? "disabled" : "";
-    }
-
-    <a asp-action="Index"
-        asp-route-pageNumber="@(Model.PageIndex - 1)"
-        asp-route-currentFilter="@ViewData["CurrentFilter"]"
-        class="btn btn-primary @prevDisabled">
-        Previous
-    </a>
-    <a asp-action="Index"
-        asp-route-pageNumber="@(Model.PageIndex + 1)"
-        asp-route-currentFilter="@ViewData["CurrentFilter"]"
-        class="btn btn-primary @nextDisabled">
-        Next
-    </a>*@

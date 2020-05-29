@@ -8,6 +8,7 @@ namespace BookstoreWebApp.Services
     {
         Task<List<Book>> GetAll();
         Task<ICollection<Book>> Get3Books();
+        Task<ICollection<Book>> Get4Books();
         Book Get(int id);
         Task<Book> Add(Book entity);
         Task<Book> Update(Book entity);

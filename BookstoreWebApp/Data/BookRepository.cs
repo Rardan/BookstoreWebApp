@@ -29,6 +29,16 @@ namespace BookstoreWebApp.Data
                 .Take(3).ToListAsync();
         }
 
+        public async Task<ICollection<Book>> Get4Books()
+        {
+            return await _bookstoreDbContext.Books
+                .Include(a => a.Author)
+                .Include(p => p.Publisher)
+                .Include(g => g.Genre)
+                .Include(s => s.Storage)
+                .Take(4).ToListAsync();
+        }
+
         public Book GetBookById(int bookId) => _bookstoreDbContext.Books.FirstOrDefault(b => b.Id == bookId);
         public void IncreaseInStorage(int bookId)
         {
