@@ -58,6 +58,8 @@ namespace BookstoreWebApp
             services.AddScoped<IBookService, BookService>();
             services.AddScoped<IOrderRepository, OrderRepository>();
             services.AddScoped<IEmailSender, EmailSender>();
+	    services.AddScoped<IReviewRepository, ReviewRepository>();
+            services.AddScoped<IReviewService, ReviewService>();
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddScoped(sp => ShoppingCart.GetCart(sp));
 
