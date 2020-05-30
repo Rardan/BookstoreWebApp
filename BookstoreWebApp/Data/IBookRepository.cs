@@ -8,6 +8,7 @@ namespace BookstoreWebApp.Data
     {
         List<Book> Books { get; }
         Task<ICollection<Book>> Get3Books();
+        Task<ICollection<Book>> Get4Books();
         IEnumerable<Storage> Storages { get; }
 
         void DecreaseInStorage(int bookId);
@@ -15,5 +16,6 @@ namespace BookstoreWebApp.Data
         void IncreaseInStorage(int bookId);
         bool Exists(int id);
         Task<List<Book>> GetFiltered(string searchString);
+        Task<List<Book>> GetFilteredOther(string filter);
     }
 }

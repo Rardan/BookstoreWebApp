@@ -29,6 +29,16 @@ namespace BookstoreWebApp.Data
                 .Take(3).ToListAsync();
         }
 
+        public async Task<ICollection<Book>> Get4Books()
+        {
+            return await _bookstoreDbContext.Books
+                .Include(a => a.Author)
+                .Include(p => p.Publisher)
+                .Include(g => g.Genre)
+                .Include(s => s.Storage)
+                .Take(4).ToListAsync();
+        }
+
         public Book GetBookById(int bookId) => _bookstoreDbContext.Books.FirstOrDefault(b => b.Id == bookId);
         public void IncreaseInStorage(int bookId)
         {
@@ -59,6 +69,45 @@ namespace BookstoreWebApp.Data
                 .Where(b => b.ISBN.Contains(searchString))
                 .ToListAsync();
             return  bookByTitle.Count != 0 ? bookByTitle : bookByIsbn;
+        }
+
+        public async Task<List<Book>> GetFilteredOther(string filter)
+        {
+            switch (filter)
+            {
+                case "name_desc":
+                    return await _bookstoreDbContext.Books
+                        .Include(a => a.Author)
+                        .Include(p => p.Publisher)
+                        .Include(g => g.Genre)
+                        .Include(s => s.Storage)
+                        .OrderByDescending(b => b.Title)
+                        .ToListAsync();
+                case "Price":
+                    return await _bookstoreDbContext.Books
+                        .Include(a => a.Author)
+                        .Include(p => p.Publisher)
+                        .Include(g => g.Genre)
+                        .Include(s => s.Storage)
+                        .OrderBy(b => b.Price)
+                        .ToListAsync();
+                case "price_desc":
+                    return await _bookstoreDbContext.Books
+                         .Include(a => a.Author)
+                         .Include(p => p.Publisher)
+                         .Include(g => g.Genre)
+                         .Include(s => s.Storage)
+                         .OrderByDescending(b => b.Price)
+                         .ToListAsync();
+                default:
+                    return await _bookstoreDbContext.Books
+                        .Include(a => a.Author)
+                        .Include(p => p.Publisher)
+                        .Include(g => g.Genre)
+                        .Include(s => s.Storage)
+                        .OrderBy(b => b.Title)
+                        .ToListAsync();
+            }
         }
 
         public void DecreaseInStorage(int bookId)

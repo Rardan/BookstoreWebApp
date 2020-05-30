@@ -1,69 +1,95 @@
-﻿@model BookstoreWebApp.Models.Book
+﻿@model BookstoreWebApp.ViewModels.DetailsViewModel
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
+    var otherbooks = Model.OtherBooks;
 }
+<link rel="stylesheet" href="~/css/bookdetails.css" />
+<link href="https://fonts.googleapis.com/css?family=Montserrat:200,300,400,500,600,700,800,900" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" type="text/css" href="~/css/owl.carousel.min.css">
+<link rel="stylesheet" href="~/css/styles.css">
+<script src="~/js/site.js"></script>
 
-
-<!DOCTYPE html>
-
-<html>
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <title>BookDetails</title>
-</head>
-<body>
+<section class="product-sec">
     <div class="container">
-        <div class="row Details Row">
-            <div class="col-md-4">
-                <img src="@Html.DisplayFor(model=>model.Photo)" class="portrait book-cover" alt="Picture of book">
-            </div>
-            <div class="Main col-md-4">
-                <div class="row">
-                    <div class="col-md-6">Title:</div>
-                    <div class="col-md-6">@Html.DisplayFor(model => model.Title)</div>
-                </div>
-                <div class="row">
-                    <div class="col-md-6">Author:</div>
-                    @{
-                        var autor = (Author)ViewData["Author"];
-                    }
-                    <div class="col-md-6">@autor.Name</div>
-                </div>
-                <div class="row">
-                    <div class="col-md-6">Price:</div>
-                    <div class="col-md-6">@Html.DisplayFor(model => model.Price) zł</div>
-                </div>
-            </div>
-            <div class="divborder col-md-4">
-                <div class="row">
-                    <div class="col-md-6">Price:</div>
-                    <div class="col-md-6">@Html.DisplayFor(model => model.Price) zł</div>
-                </div>
-                <div class="row top-buffer">
-                    <div class="col-md-4"></div>
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            <input type="button" class="btn cartbutton" onclick="AddToCart(@Model.Id)"/>
-                        </div>
+        <h1>@Model.Book.Title</h1>
+        <div class="row">
+            <div class="col-md-6 slider-sec">
+                <!-- main slider carousel -->
+                <div id="myCarousel" class="carousel slide">
+                    <!-- main slider carousel items -->
+                    <div class="carousel-inner">
+                        @for (int i = 0; i < 2; i++)
+                        {
+                            <div class="active item carousel-item" data-slide-number="0">
+                                <img src="@Model.Book.Photo" class="img-fluid" style="width:100%; height:100%;">
+                            </div>
+                        }
                     </div>
-                    <div class="col-md-4"></div>
+                    <!-- main slider carousel nav controls -->
+                    <ul class="carousel-indicators list-inline">
+                        @for (int i = 0; i < 2; i++)
+                        {
+                            <li class="list-inline-item active">
+                                <a id="carousel-selector-@i" class="selected" data-slide-to="@i" data-target="#myCarousel">
+                                    <img src="@Model.Book.Photo" class="img-fluid">
+                                </a>
+                            </li>
+                        }
+                    </ul>
                 </div>
+                <!--/main slider carousel-->
             </div>
-        </div>
-
-        <div class="row top-buffer">
-            <div class="col-xs-12">
-                <div class="row">
-                    <div class="col-md-6">Description</div>
-
-                </div>
-                <div class="row">
-                    <div class="col-md-6">@Html.DisplayFor(model => model.Description)</div>
+            <div class="col-md-6 slider-content">
+                <p>@Model.Book.Description</p>
+                <ul>
+                    <li>
+                        <span class="name">Print List Price</span><span class="clm">:</span>
+                        <span class="price">@Model.Book.Price zł</span>
+                    </li>
+                    <li>
+                        <span class="name">Kindle Price</span><span class="clm">:</span>
+                        <span class="price final">@Model.Book.Price zł</span>
+                    </li>
+                    <li>
+                        <span class="name">Rating</span><span class="clm">:</span>
+                        <span class="price final"><a asp-action="Reviews" asp-route-id="@Model.Book.Id">@Model.AverageRating / 5 <img src="~/img/star24.png"/></a></span>
+                    </li>
+                </ul>
+                <div class="btn-sec">
+                    <button class="btn" onclick="AddToCart(@Model.Book.Id)">Add to Cart</button>
                 </div>
 
             </div>
         </div>
     </div>
-</body>
-</html>
-
+</section>
+<section class="related-books">
+    <div class="container">
+        <h2>You may also like these book</h2>
+        <div class="recomended-sec">
+            <div class="row">
+                @foreach (var item in otherbooks)
+                {
+                    <div class="col-lg-3 col-md-6">
+                        <div class="item">
+                            <img src="@item.Photo" alt="img">
+                            <h3>@item.Title</h3>
+                            <h6><span class="price">@item.Price</span></h6>
+                            <div class="hover">
+                                <span><a class="fa fa-long-arrow-right" aria-hidden="true" asp-action="Details" asp-route-id="@item.Id"></a></span>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</section>
+<footer>
+    <div class="container">
+        <div class="row">
+            
+        </div>
+    </div>
+</footer>

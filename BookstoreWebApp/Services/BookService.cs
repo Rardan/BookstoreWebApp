@@ -19,9 +19,15 @@ namespace BookstoreWebApp.Services
             return _bookRepository.Books;
         }
 
+
         public async Task<ICollection<Book>> Get3Books()
         {
             return await _bookRepository.Get3Books();
+        }
+
+        public async Task<ICollection<Book>> Get4Books()
+        {
+            return await _bookRepository.Get4Books();
         }
 
         public Book Get(int id)
@@ -52,6 +58,11 @@ namespace BookstoreWebApp.Services
         public async Task<List<Book>> GetFiltered(string? searchString)
         {
             return await _bookRepository.GetFiltered(searchString);
+        }
+
+        public async Task<List<Book>> GetFilteredOther(string? filter)
+        {
+            return await _bookRepository.GetFilteredOther(filter);
         }
     }
 }
