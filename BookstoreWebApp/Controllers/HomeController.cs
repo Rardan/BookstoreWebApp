@@ -23,7 +23,7 @@ namespace BookstoreWebApp.Controllers
 
         public async Task<IActionResult> Index()
         {
-            return View(await _bookService.Get3Books());
+            return View(await _bookService.Get4Books());
         }
 
         public IActionResult Privacy()
