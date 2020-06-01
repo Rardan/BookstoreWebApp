@@ -33,8 +33,8 @@ namespace BookstoreWebApp.Data
 
         public void CreateOrder(Order order, StoreUser storeUser)
         {
-            var transaction = _bookstoreDbContext.Database.BeginTransaction();
-            try
+           // var transaction = _bookstoreDbContext.Database.BeginTransaction();
+           // try
             {
                 order.OrderDate = DateTime.Now;
                 order.OrderNumber = DateTime.Now.Year.ToString() + DateTime.Now.Month.ToString()
@@ -44,7 +44,7 @@ namespace BookstoreWebApp.Data
                 order.OrderTotal = _shoppingCart.GetShoppingCartTotal();
                 order.Condidtion = "Created";
                 _bookstoreDbContext.Add(order);
-
+                _bookstoreDbContext.SaveChanges();
                 var shoppingCartItems = _shoppingCart.ShoppingCartItems;
 
                 foreach (var item in shoppingCartItems)
@@ -56,20 +56,20 @@ namespace BookstoreWebApp.Data
                         Price = item.Book.Price * item.Amount,
                         Amount = item.Amount
                     };
-                    var itemStorage = _bookstoreDbContext.Storages.FirstOrDefault(s => s.BookId == item.Book.Id);
-                    itemStorage.Amount = itemStorage.Amount - orderItem.Amount;
+                    //var itemStorage = _bookstoreDbContext.Storages.FirstOrDefault(s => s.BookId == item.Book.Id);
+                    //itemStorage.Amount = itemStorage.Amount - orderItem.Amount;
 
-                    _bookstoreDbContext.Storages.Update(itemStorage);
+                   // _bookstoreDbContext.Storages.Update(itemStorage);
                     _bookstoreDbContext.OrderItems.Add(orderItem);
                 }
                 _bookstoreDbContext.SaveChanges();
 
-                transaction.Commit();
+           //     transaction.Commit();
             }
-            catch (Exception e)
-            {
-                transaction.Rollback();
-            }
+            //catch (Exception e)
+            //{
+            //    transaction.Rollback();
+            //}
         }
 
         public Order GetOrderByNumber(string orderNumber)
@@ -77,7 +77,7 @@ namespace BookstoreWebApp.Data
             var order = _bookstoreDbContext.Orders
                 .Include(i => i.OrderItems)
                 .Include("OrderItems.Book")
-                .Include("OrderItem.Book.Artist")
+                .Include("OrderItems.Book.Author")
                 .FirstOrDefault(o => o.OrderNumber == orderNumber);
             return order;
         }
