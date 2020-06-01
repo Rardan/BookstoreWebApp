@@ -1,0 +1,21 @@
+﻿@model IEnumerable<Order>
+
+<h2>Your orders:</h2>
+
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th>Order number</th>
+            <th>State</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <th><a asp-controller="User" asp-action="Details" asp-route-orderNumber="@item.OrderNumber">@item.OrderNumber</a></th>
+                <th>@item.Condidtion</th>
+            </tr>
+        }
+    </tbody>
+</table>
