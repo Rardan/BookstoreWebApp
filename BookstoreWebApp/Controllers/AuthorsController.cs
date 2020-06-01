@@ -9,9 +9,11 @@ using BookstoreWebApp.Data;
 using BookstoreWebApp.Helpers;
 using BookstoreWebApp.Models;
 using BookstoreWebApp.Services;
+using Microsoft.AspNetCore.Authorization;
 
 namespace BookstoreWebApp.Controllers
 {
+    [Authorize(Roles = "Employee, Admin")]
     public class AuthorsController : Controller
     {
         private readonly IAuthorService _authorService;
