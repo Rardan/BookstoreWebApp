@@ -2,6 +2,7 @@
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
     var otherbooks = Model.OtherBooks;
+    var author = ViewData["Author"] as Author;
 }
 <link rel="stylesheet" href="~/css/bookdetails.css" />
 <link href="https://fonts.googleapis.com/css?family=Montserrat:200,300,400,500,600,700,800,900" rel="stylesheet">
@@ -43,12 +44,9 @@
             <div class="col-md-6 slider-content">
                 <p>@Model.Book.Description</p>
                 <ul>
+                    <li>Autor: @author.Name</li>
                     <li>
-                        <span class="name">Print List Price</span><span class="clm">:</span>
-                        <span class="price">@Model.Book.Price zł</span>
-                    </li>
-                    <li>
-                        <span class="name">Kindle Price</span><span class="clm">:</span>
+                        <span class="name">Price</span><span class="clm">:</span>
                         <span class="price final">@Model.Book.Price zł</span>
                     </li>
                     <li>

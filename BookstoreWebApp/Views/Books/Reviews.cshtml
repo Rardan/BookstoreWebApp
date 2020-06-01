@@ -37,17 +37,17 @@
                     </textarea>
                     
                 </div>
-                <div class="row mt-2">
-                    <center>
-                        <button class="btn" style="float:right;" asp-action="AddReview" asp-route-id="@Model.Book.Id" asp-route-Rate="@selectedvalue">Button</button>
-                    </center>
+                <div class="row mt-2 justify-content-center">
+
+                        <button class="btn" style="float:right;" asp-action="AddReview" asp-route-id="@Model.Book.Id" asp-route-Rate="@selectedvalue">Add your review</button>
+
                 </div>
             </div>
         </form>
     </div>
-
-    <hr />
-    <h3>Reviews section for @Model.Book.Title</h3>
+    <div class="container m-2">
+        <hr />
+        <h3>Reviews section for @Model.Book.Title</h3>
         @if (Model.Reviews.Count != 0)
         {
             foreach (var review in Model.Reviews)
@@ -62,8 +62,8 @@
                 </div>
             }
         }
-    <div class="mb-4"></div>
-
+        <div class="mb-4"></div>
+    </div>
 <script src="js/jquery-2.1.1.js"></script>
 <script src="js/jquery.mixitup.min.js"></script>
 <script src="js/main.js"></script> <!-- Resource jQuery -->
