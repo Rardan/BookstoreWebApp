@@ -20,7 +20,7 @@
                         @foreach (var item in Model.OrderItems)
                         {
                             <ul>
-                                <li>@item.Book.Title - @item.Book.Author  x@(item.Amount)</li>
+                                <li>@item.Book.Title - @item.Book.Author.Name  x@(item.Amount)</li>
                             </ul>
                         }
                     </th>
