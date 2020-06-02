@@ -45,7 +45,7 @@
             </div>
         </form>
     </div>
-    <div class="container m-2">
+    <div class="container" style="display:block; padding:50px;">
         <hr />
         <h3>Reviews section for @Model.Book.Title</h3>
         @if (Model.Reviews.Count != 0)
@@ -62,8 +62,9 @@
                 </div>
             }
         }
-        <div class="mb-4"></div>
+        
     </div>
+ 
 <script src="js/jquery-2.1.1.js"></script>
 <script src="js/jquery.mixitup.min.js"></script>
 <script src="js/main.js"></script> <!-- Resource jQuery -->

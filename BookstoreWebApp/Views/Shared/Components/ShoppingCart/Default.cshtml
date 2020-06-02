@@ -42,41 +42,4 @@
     <a asp-controller="ShoppingCart" asp-action="Checkout" class="button">Checkout</a>
 </div>    
 @*</div> end shopping-cart*@ 
-@*<ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu">
-        @if (Model == null)
-        {
-            <li><a tabindex="-1" href="#">No items in your cart</a></li>
-        }
-        else
-        {
-            @foreach (var item in items)
-            {
-                <li class="p-1 m-1">
-                    <div class="row">
-                        <div class="col-sm-3">
-                            <img src="@item.Book.Photo" style="width:50px; height:50px;" />
-                        </div>
-                        <div class="col-sm-3">
-                            @item.Book.Price zł
-                        </div>
-                        <div class="col-sm-3">
-                            <a class="text-danger remove"
-                               asp-controller="ShoppingCart" asp-action="RemoveFromShoppingCart"
-                               asp-route-productId="@item.Book.Id">X</a>
-                        </div>
-                    </div>
-                </li>
-            }
-
-        }
-        Total: @Model.GetShoppingCartTotal() zł <br>
-        <a class="btn text-info" asp-controller="ShoppingCart" asp-action="Index">Your cart</a>
-        @if(items.Count != 0) {
-        <a class="btn text-success" asp-controller="Order" asp-action="Checkout">Checkout</a>
-        }
-
-
-        <li class="divider"></li>
-        <li><a tabindex="-1" href="#"></a></li>
-    </ul>*@
 

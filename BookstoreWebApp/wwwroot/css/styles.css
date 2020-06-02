@@ -1054,7 +1054,7 @@ header .cart {
 
   .related-books h2 {
     font-size: 24px; } }
-footer {
+/*footer {
   background: #f0f0f0;
   padding: 80px 0 0;
   width: 100%;
@@ -1129,7 +1129,7 @@ footer {
         footer .copy-right .share span:last-child {
           padding-right: 0; }
         footer .copy-right .share span:hover {
-          color: #ff9700; }
+          color: #ff9700; }*/
 
 @media only screen and (max-width: 480px) {
   footer .timing {

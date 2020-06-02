@@ -73,15 +73,6 @@ namespace BookstoreWebApp.Controllers
     {
         private readonly ShoppingCart _shoppingCart;
         private readonly IBookRepository _bookRepository;
-        public IViewComponentResult CartSummary()
-        {
-            var shoppingCartViewModel = new ShoppingCartViewModel
-            {
-                ShoppingCart = _shoppingCart,
-                ShoppingCartTotal = _shoppingCart.GetShoppingCartTotal()
-            };
-            return View(shoppingCartViewModel);
-        }
 
         public IViewComponentResult Invoke()
         {
