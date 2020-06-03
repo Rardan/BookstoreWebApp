@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Mail;
 using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI;
@@ -58,7 +59,8 @@ namespace BookstoreWebApp
             services.AddScoped<IBookService, BookService>();
             services.AddScoped<IOrderRepository, OrderRepository>();
             services.AddScoped<IEmailSender, EmailSender>();
-	    services.AddScoped<IReviewRepository, ReviewRepository>();
+	        services.AddScoped<IReviewRepository, ReviewRepository>();
+            services.AddScoped<IGenreRepository, GenreRepository>();
             services.AddScoped<IReviewService, ReviewService>();
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddScoped(sp => ShoppingCart.GetCart(sp));
@@ -77,7 +79,7 @@ namespace BookstoreWebApp
                 .AddFluentEmail("bookstorewebapp123@gmail.com")
                 .AddRazorRenderer()
                 .AddSmtpSender(client);
-
+            services.AddAutoMapper(typeof(Startup));
         }
         
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

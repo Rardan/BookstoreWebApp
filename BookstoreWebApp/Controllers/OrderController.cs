@@ -54,12 +54,16 @@ namespace BookstoreWebApp.Controllers
                 var user = await _userManager.FindByNameAsync(User.Identity.Name);
                 _orderRepository.CreateOrder(order, user);
                 await _emailSender.SendEmail(email, _shoppingCart, order.Email);
-                return RedirectToAction("CheckoutComplete");
+                return RedirectToAction("Payment");
             }
             return View(order);
         }
 
-        public async Task<IActionResult> CheckoutComplete()
+        public IActionResult Payment()
+        {
+            return View();
+        }
+        public IActionResult CheckoutComplete()
         {
             ViewBag.CheckoutCompleteMessage = "Thank you for order!";
             

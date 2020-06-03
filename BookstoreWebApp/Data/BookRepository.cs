@@ -39,7 +39,9 @@ namespace BookstoreWebApp.Data
                 .Take(4).ToListAsync();
         }
 
-        public Book GetBookById(int bookId) => _bookstoreDbContext.Books.FirstOrDefault(b => b.Id == bookId);
+        public Book GetBookById(int bookId) => _bookstoreDbContext.Books
+            .Include(b => b.Author)
+            .FirstOrDefault(b => b.Id == bookId);
         public void IncreaseInStorage(int bookId)
         {
             var storage = _bookstoreDbContext.Storages.FirstOrDefault(i => i.BookId == bookId);
@@ -108,6 +110,29 @@ namespace BookstoreWebApp.Data
                         .OrderBy(b => b.Title)
                         .ToListAsync();
             }
+        }
+
+        public async Task Add(Book book)
+        {
+            await _bookstoreDbContext.Books.AddAsync(book);
+            await _bookstoreDbContext.SaveChangesAsync();
+        }
+
+        public async Task Update(Book book)
+        {
+             _bookstoreDbContext.Books.Update(book);
+             await _bookstoreDbContext.SaveChangesAsync();
+        }
+
+        public void Delete(Book book)
+        {
+            var bookAuthor = _bookstoreDbContext.BookAuthors
+                .Where(ba => ba.BookId == book.Id)
+                .FirstOrDefault();
+            if (bookAuthor != null)
+                _bookstoreDbContext.BookAuthors.Remove(bookAuthor);
+            _bookstoreDbContext.Books.Remove(book);
+            _bookstoreDbContext.SaveChanges();
         }
 
         public void DecreaseInStorage(int bookId)

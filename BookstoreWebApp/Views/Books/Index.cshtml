@@ -46,6 +46,24 @@
         <span class="glyphicon glyphicon-cog"></span> Advanced Search
     </button>
     <div class="container">
+        @if (ViewData["status"].ToString() == "success")
+        {
+            <div class="alert alert-success" role="alert">
+                Successfully added/updated the book!
+            </div>
+        }
+        @if (ViewData["status"].ToString() == "error")
+        {
+            <div class="alert alert-danger" role="alert">
+                Could not add the book.
+            </div>
+        }
+        @if (ViewData["status"].ToString() == "deleted")
+        {
+            <div class="alert alert-warning" role="alert">
+                Book has been deleted.
+            </div>
+        }
         <h2>highly recommendes books</h2>
         <div class="recomended-sec">
             <div class="row">
@@ -101,6 +119,7 @@
                 </center>
             </div>
         </div>
+    </div>
 </section>
 
 <footer>

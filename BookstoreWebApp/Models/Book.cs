@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -14,8 +15,11 @@ namespace BookstoreWebApp.Models
         public string ISBN { get; set; }
         public string Dating { get; set; }
         public string Photo { get; set; }
+        [Display(Name = "Author")]
         public int AuthorId { get; set; }
+        [Display(Name = "Genre")]
         public int GenreId { get; set; }
+        [Display(Name = "Publisher")]
         public int PublisherId { get; set; }
         public ICollection<Review> Reviews { get; set; }
 

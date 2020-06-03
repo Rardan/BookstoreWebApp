@@ -35,19 +35,20 @@ namespace BookstoreWebApp.Services
             return _bookRepository.GetBookById(id);
         }
 
-        public Task<Book> Add(Book entity)
+        public async Task Add(Book entity)
         {
-            throw new System.NotImplementedException();
+            await _bookRepository.Add(entity);
         }
 
-        public Task<Book> Update(Book entity)
+        public void Update(Book entity)
         {
-            throw new System.NotImplementedException();
+            _bookRepository.Update(entity);
         }
 
-        public Task<Book> Delete(int id)
+        public void Delete(int id)
         {
-            throw new System.NotImplementedException();
+            var book = _bookRepository.GetBookById(id);
+            _bookRepository.Delete(book);
         }
 
         public bool Exists(int id)

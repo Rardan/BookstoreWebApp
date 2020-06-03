@@ -17,5 +17,8 @@ namespace BookstoreWebApp.Data
         bool Exists(int id);
         Task<List<Book>> GetFiltered(string searchString);
         Task<List<Book>> GetFilteredOther(string filter);
+        Task Add(Book book);
+        Task Update(Book book);
+        void Delete(Book book);
     }
 }
